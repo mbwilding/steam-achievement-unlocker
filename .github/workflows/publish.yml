@@ -27,10 +27,10 @@ jobs:
           dotnet build "SteamAchievementUnlocker/SteamAchievementUnlocker.csproj" --configuration Release --os ${{ matrix.os }} --arch ${{ matrix.arch }}
           dotnet build "SteamAchievementUnlockerAgent/SteamAchievementUnlockerAgent.csproj" --configuration Release --os ${{ matrix.os }} --arch ${{ matrix.arch }}
           echo "pre"
-          ls Build/Release/net9.0/${{ matrix.os }}-${{ matrix.arch }}/runtimes/${{ matrix.os }}-${{ matrix.arch }}
+          ls Build/Release/net9.0/${{ matrix.os }}-${{ matrix.arch }}/runtimes/${{ matrix.os }}-${{ matrix.arch }}/lib
           find "Build/Release/net9.0/${{ matrix.os }}-${{ matrix.arch }}/runtimes" -mindepth 1 -maxdepth 1 -type d ! -name "${{ matrix.os }}-${{ matrix.arch }}*" -exec rm -rf {} +
           echo "post"
-          ls Build/Release/net9.0/${{ matrix.os }}-${{ matrix.arch }}/runtimes/${{ matrix.os }}-${{ matrix.arch }}
+          ls Build/Release/net9.0/${{ matrix.os }}-${{ matrix.arch }}/runtimes/${{ matrix.os }}-${{ matrix.arch }}/lib
 
   release:
     needs: build
