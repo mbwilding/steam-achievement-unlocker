@@ -8,7 +8,7 @@ Process.GetProcessesByName("SteamAchievementUnlockerAgent")
     .ToList()
     .ForEach(x => x.Kill());
 
-Common.Serilog.Init("Achievement Unlocker", false);
+Common.Serilog.Init("Achievement Unlocker");
 
 #if WIN
 var first = true;

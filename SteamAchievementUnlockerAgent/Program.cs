@@ -1,5 +1,7 @@
 using SteamAchievementUnlockerAgent;
 
+Common.Serilog.Init("Achievement Unlocker Agent");
+
 #if LINUX || MAC
     Console.SetOut(TextWriter.Null);
 #endif

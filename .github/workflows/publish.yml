@@ -29,7 +29,7 @@ jobs:
       - name: Build
         run: |
           dotnet build "SteamAchievementUnlocker/SteamAchievementUnlocker.csproj" --configuration Release --os ${{ matrix.os }} --arch ${{ matrix.arch }}
-          find "Build/Release/net9.0/${{ matrix.os }}-${{ matrix.arch }}/runtimes" -mindepth 1 -maxdepth 1 -type d ! -name "${{ matrix.os }}-${{ matrix.arch }}*" -exec rm -rf {} +
+          rm -rf "Build/Release/net9.0/${{ matrix.os }}-${{ matrix.arch }}/runtimes"
 
       - name: Zip
         run: |

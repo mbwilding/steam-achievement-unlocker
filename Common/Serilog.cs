@@ -5,9 +5,12 @@ namespace Common;
 
 public static class Serilog
 {
-    public static void Init(string name, bool agent)
+    public static void Init(string name)
     {
-        string dir = agent ? "../../" : string.Empty;
+        string dir = string.Empty;
+        if (name.EndsWith("Agent")){
+            dir = "../../";
+        }
 
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Verbose()
