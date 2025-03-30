@@ -1,25 +1,39 @@
 # Steam Achievement Unlocker
-Unlocks every achievement for all owned Steam titles.<br>
-Tested on Windows, Linux and Mac (x64).<br>
-Make sure Steam is logged in.<br>
 
-Download 'SteamAchievementUnlocker-*.zip' from the release section<br>
+## Description
+Unlocks every achievement for all owned Steam titles.
+Tested on Windows, Linux, and Mac (x64).
+Make sure Steam is logged in.
 
-**[Windows]**<br>
-Extract the files then run 'SteamAchievementUnlocker.exe' while steam is running.<br>
-If you only want to unlock for specific app IDs, just add them on the end separated by spaces via CMD.<br>
-`SteamAchievementUnlocker.exe 730 813780`<br>
+## Requirements
+- [.NET 9 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
+- To build from source: .NET 9 SDK is required.
 
-**[Linux / Mac]**<br>
-Extract the files, then in the CLI browse to the directory.<br>
-Run these commands;<br>
-`sudo chmod +x SteamAchievementUnlocker SteamAchievementUnlockerAgent`<br>
-`./SteamAchievementUnlocker`<br>
-If you only want to unlock for specific app IDs, just add them on the end seperated by spaces.<br>
-`./SteamAchievementUnlocker 730 813780`<br>
+## General Instructions
+1. Download `SteamAchievementUnlocker-{os}-{arch}.zip` from the release section: [GitHub Releases](https://github.com/mbwilding/steam-achievement-unlocker/releases).
+2. Extract the downloaded files.
+3. Run the executable to unlock achievements for all Steam titles.
+4. To unlock achievements for specific app IDs, add them as command-line arguments separated by spaces.
+   - Example for specific app IDs: `730 813780`
+5. To clear achievements, add the `--clear` flag to the arguments.
 
-**[Clearing achievements]**<br>
-Add the switch statement to the arguments<br>
-`--clear`
+## Platform-Specific Instructions
 
-_**Requires .NET 9 SDK to build from source**_<br>
+### Windows
+- After extracting the files, run `SteamAchievementUnlocker.exe` while Steam is running.
+- To target specific app IDs:
+  ```powershell
+  .\SteamAchievementUnlocker.exe 730 813780
+  ```
+
+### Linux / Mac
+- Open a terminal and navigate to the extracted directory.
+- Run the following commands:
+  1. Set execution permissions:
+     ```bash
+     sudo chmod +x SteamAchievementUnlocker SteamAchievementUnlockerAgent
+     ```
+  2. Execute the application:
+     ```bash
+     ./SteamAchievementUnlocker
+     ```
