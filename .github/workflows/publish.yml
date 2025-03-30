@@ -9,7 +9,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [linux, win, macos]
+        os: [linux, win, osx]
         arch: [x64]
     runs-on: ubuntu-latest
     steps:
