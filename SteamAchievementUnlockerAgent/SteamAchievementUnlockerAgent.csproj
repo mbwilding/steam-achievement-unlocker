@@ -48,27 +48,27 @@
 
     <!-- Windows -->
     <ItemGroup
-        Condition="('$(RuntimeIdentifier)'=='win-x64') or (('$(RuntimeIdentifier)'=='') and ('$(OS)'=='Windows_NT'))">
+        Condition="('$(RuntimeIdentifier)' == 'win-x64') or (('$(RuntimeIdentifier)' == '') and ('$(OS)' == 'Windows_NT'))">
         <None Include="runtimes\win-x64\**\*">
-            <Link>%(Filename)%(Extension)</Link>
+            <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>
 
     <!-- Linux -->
     <ItemGroup
-        Condition="('$(RuntimeIdentifier)'=='linux-x64') or (('$(RuntimeIdentifier)'=='') and ('$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))'=='True'))">
+        Condition="('$(RuntimeIdentifier)' == 'linux-x64') or (('$(RuntimeIdentifier)' == '') and ('$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))'=='True'))">
         <None Include="runtimes\linux-x64\**\*">
-            <Link>%(Filename)%(Extension)</Link>
+            <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>
 
     <!-- OSX -->
     <ItemGroup
-        Condition="('$(RuntimeIdentifier)'=='osx-x64') or (('$(RuntimeIdentifier)'=='') and ('$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))'=='True'))">
+        Condition="('$(RuntimeIdentifier)' == 'osx-x64') or (('$(RuntimeIdentifier)' == '') and ('$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))'=='True'))">
         <None Include="runtimes\osx-x64\**\*">
-            <Link>%(Filename)%(Extension)</Link>
+            <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>
