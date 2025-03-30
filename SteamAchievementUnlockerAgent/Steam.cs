@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks.Dataflow;
+using System.Threading.Tasks.Dataflow;
 using Common;
 using Polly;
 using Polly.Contrib.WaitAndRetry;
@@ -25,7 +25,7 @@ internal class Steam : IDisposable
         _appId = appId;
         _clear = clear;
 
-        var backoff = Backoff.DecorrelatedJitterBackoffV2(medianFirstRetryDelay: TimeSpan.FromSeconds(0.10), retryCount: Config.Retries);
+        var backoff = Backoff.DecorrelatedJitterBackoffV2(medianFirstRetryDelay: TimeSpan.FromSeconds(0.10), retryCount: 2);
 
         // ReSharper disable PossibleMultipleEnumeration
         _policyException = Policy
@@ -43,7 +43,7 @@ internal class Steam : IDisposable
         Log.Information("Game: {GameName}", _gameName);
         Log.Information("App: {AppId}", _appId);
 
-        if (!await ConnectAsync(_appId).ConfigureAwait(false))
+        if (!await ConnectAsync(_appId))
         {
             Log.Error("Couldn't connect to steam");
             return -1;
@@ -72,7 +72,7 @@ internal class Steam : IDisposable
             Log.Information("{Delimiter}", _delimiter);
 
             var linkOptions = new DataflowLinkOptions { PropagateCompletion = true };
-            var settings = new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = Config.ParallelismAchievements };
+            var settings = new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 1 };
 
             var splitAchievementNum = new TransformManyBlock<uint, uint>(x => Enumerable.Range(0, (int) x).Select(y => (uint) y), settings);
             var numToAchievementName = new TransformBlock<uint, string>(x => _policyException.Execute(() => SteamUserStats.GetAchievementName(x)), settings);
@@ -89,11 +89,11 @@ internal class Steam : IDisposable
 
             if (_clear)
             {
-                await clearAchievement.Completion.WaitAsync(CancellationToken.None).ConfigureAwait(false);
+                await clearAchievement.Completion.WaitAsync(CancellationToken.None);
             }
             else
             {
-                await unlockAchievement.Completion.WaitAsync(CancellationToken.None).ConfigureAwait(false);
+                await unlockAchievement.Completion.WaitAsync(CancellationToken.None);
             }
         }
 
@@ -104,7 +104,7 @@ internal class Steam : IDisposable
 
     private async Task<bool> ConnectAsync(string appId)
     {
-        await File.WriteAllTextAsync(AppIdFile, appId).ConfigureAwait(false);
+        await File.WriteAllTextAsync(AppIdFile, appId);
         try
         {
             return SteamAPI.Init();

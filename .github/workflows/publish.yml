@@ -12,13 +12,10 @@ jobs:
         include:
           - os: linux
             arch: x64
-            binary: libsteam_api.so
           - os: win
             arch: x64
-            binary: steam_api64.dll
           - os: osx
             arch: x64
-            binary: libsteam_api.dylib
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

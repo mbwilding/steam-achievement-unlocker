@@ -8,7 +8,7 @@ public class Agent
     public static async Task RunAsync(string app, string appId, string gameName, bool clear)
     {
         var dir = Clone(appId);
-        
+
         var arguments = $"{string.Concat(string.Join(' ', gameName.Trim()))} {appId.Trim()} clear={clear}";
 
         var startInfo = new ProcessStartInfo
@@ -29,7 +29,7 @@ public class Agent
         var agent = Process.Start(startInfo);
         if (agent != null)
         {
-            await agent.WaitForExitAsync().ConfigureAwait(false);
+            await agent.WaitForExitAsync();
             if (agent.ExitCode == 0)
             {
                 Log.Information("Agent success: {GameName} [{AppId}]", gameName, appId);
@@ -43,7 +43,7 @@ public class Agent
         {
             Log.Error("Agent failed to launch: {GameName} [{AppId}]", gameName, appId);
         }
-        
+
         Directory.Delete(dir, true);
     }
 
@@ -55,7 +55,7 @@ public class Agent
             Directory.Delete(dir, true);
         Directory.CreateDirectory(dir);
         Directory.CreateDirectory($"{dir}runtimes");
-        
+
         var files = Directory.EnumerateFiles(current).Where(x =>
             Path.GetFileNameWithoutExtension(x).Contains("SteamAchievementUnlockerAgent") ||
             Path.GetExtension(x).Contains(".dll") ||

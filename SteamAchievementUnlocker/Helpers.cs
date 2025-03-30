@@ -1,4 +1,4 @@
-﻿using System.Xml.Linq;
+using System.Xml.Linq;
 using Serilog;
 
 namespace SteamAchievementUnlocker;
@@ -18,7 +18,7 @@ public static class Helpers
         var homeDir = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
         var file = "Library/Application Support/Steam/config/loginusers.vdf";
 #endif
-        
+
 #if LINUX || MAC
         var combined = Path.Combine(homeDir!, file);
         var lines = await File.ReadAllLinesAsync(combined);
@@ -36,9 +36,9 @@ public static class Helpers
         try
         {
             using var client = new HttpClient();
-            var response = await client.GetAsync(url).ConfigureAwait(false);
+            var response = await client.GetAsync(url);
             response.EnsureSuccessStatusCode();
-            var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            var responseBody = await response.Content.ReadAsStringAsync();
             // Above three lines can be replaced with new helper method below
             // string responseBody = await client.GetStringAsync(uri);
 
@@ -61,12 +61,12 @@ public static class Helpers
                        "Sign in to steam here: 'https://steamcommunity.com/my/edit/settings'\n" +
                        "Set 'Game details' to 'Public'\n\n" +
                        "Then re-run this program";
-        
+
         Log.Error("{Error}", errorMsg);
         Console.ReadLine();
         Environment.Exit(1);
     }
-    
+
     private static Dictionary<string, string> ParseXmlToDictionary(string xml)
     {
         var doc = XDocument.Parse(xml, LoadOptions.None);

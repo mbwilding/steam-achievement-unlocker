@@ -20,7 +20,7 @@ while (Helpers.ReadRegistry(@"Software\Valve\Steam\ActiveProcess", "ActiveUser")
         first = false;
     }
 
-    await Task.Delay(500).ConfigureAwait(false);
+    await Task.Delay(500);
 }
 var app = "SteamAchievementUnlockerAgent.exe";
 #elif LINUX || MAC
@@ -34,21 +34,21 @@ const string clearString = "--clear";
 var clearToggle = args.Contains(clearString);
 var argsList = args.Where(x => !x.Contains(clearString)).ToList();
 
-var options = new ParallelOptions { MaxDegreeOfParallelism = Config.ParallelismApps };
+var options = new ParallelOptions { MaxDegreeOfParallelism = 1 };
 
 if (argsList.Count != 0)
 {
     await Parallel.ForEachAsync(argsList.Distinct(), options, async (appId, _) =>
     {
         if (uint.TryParse(appId, out var _))
-            await Agent.RunAsync(app, appId, appId, clearToggle).ConfigureAwait(false);
+            await Agent.RunAsync(app, appId, appId, clearToggle);
         else
             Log.Error("Please enter a numerical app ID: {Arg}", appId);
-    }).ConfigureAwait(false);
+    });
 }
 else
 {
-    var games = await Helpers.GetGameListAsync().ConfigureAwait(false);
+    var games = await Helpers.GetGameListAsync();
 
     await Parallel.ForEachAsync(games, options, async (game, _) =>
     {
@@ -60,8 +60,8 @@ else
 
         var rgx = new Regex("[^a-zA-Z0-9 ()&$:_ -]");
         gameName = rgx.Replace(gameName, string.Empty);
-        await Agent.RunAsync(app, appId, gameName, clearToggle).ConfigureAwait(false);
-    }).ConfigureAwait(false);
+        await Agent.RunAsync(app, appId, gameName, clearToggle);
+    });
 }
 
 if (Directory.Exists("Apps"))
