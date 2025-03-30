@@ -41,8 +41,11 @@ jobs:
           echo "dep_path: $dep_path"
           ls "$dep_path"
 
-          find "$base_path" -mindepth 1 -maxdepth 1 -type d ! -name "${{ matrix.os }}-${{ matrix.arch }}*" -exec rm -rf {} +
+          echo "src: ${dep_path}/${binary} | dst: $lib_path/${binary}"
           cp "${dep_path}/${binary}" "$lib_path/${binary}"
+
+          echo "Cleaning up os/arch specific folders"
+          find "$base_path" -mindepth 1 -maxdepth 1 -type d ! -name "${{ matrix.os }}-${{ matrix.arch }}*" -exec rm -rf {} +
 
           echo "lib_path: $lib_path"
           ls "$lib_path"
