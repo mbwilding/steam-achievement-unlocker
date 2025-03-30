@@ -50,6 +50,9 @@ jobs:
     needs: build
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Download Artifacts
         uses: actions/download-artifact@v4
         with:
@@ -57,14 +60,14 @@ jobs:
           merge-multiple: true
           path: .
 
-      - name: "Create Git Tag"
+      - name: Create Git Tag
         run: |
           git config --local user.name "GitHub Action"
           git config --local user.email "action@github.com"
           git tag -a ${{ github.run_number }} -m "${{ github.run_number }}"
           git push origin ${{ github.run_number }}
 
-      - name: "Create GitHub Release"
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.run_number }}
