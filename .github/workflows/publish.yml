@@ -26,9 +26,17 @@ jobs:
         run: |
           dotnet build "SteamAchievementUnlocker/SteamAchievementUnlocker.csproj" --configuration Release --os ${{ matrix.os }} --arch ${{ matrix.arch }}
           dotnet build "SteamAchievementUnlockerAgent/SteamAchievementUnlockerAgent.csproj" --configuration Release --os ${{ matrix.os }} --arch ${{ matrix.arch }}
-          lib_path="Build/Release/net9.0/${{ matrix.os }}-${{ matrix.arch }}/runtimes/${{ matrix.os }}-${{ matrix.arch }}/lib/netstandard2.1"
-          find "Build/Release/net9.0/${{ matrix.os }}-${{ matrix.arch }}/runtimes" -mindepth 1 -maxdepth 1 -type d ! -name "${{ matrix.os }}-${{ matrix.arch }}*" -exec rm -rf {} +
-          cp "Common/runtimes/${{ matrix.os }}-${{ matrix.arch }}/lib/netstandard2.1/libsteam_api.*" "$lib_path"
+          base_path="Build/Release/net9.0/${{ matrix.os }}-${{ matrix.arch }}/runtimes"
+          lib_path="${base_path}/${{ matrix.os }}-${{ matrix.arch }}/lib/netstandard2.1"
+          dep_path="Common/runtimes/${{ matrix.os }}-${{ matrix.arch }}/lib/netstandard2.1"
+
+          echo "dep_path: $dep_path"
+          ls "$dep_path"
+
+          find "$base_path" -mindepth 1 -maxdepth 1 -type d ! -name "${{ matrix.os }}-${{ matrix.arch }}*" -exec rm -rf {} +
+          cp "${dep_path}/libsteam_api.*" "$lib_path"
+
+          echo "lib_path: $lib_path"
           ls "$lib_path"
 
   release:
