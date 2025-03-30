@@ -3,7 +3,7 @@
 ## Description
 Unlocks every achievement for all owned Steam titles.
 Tested on Windows, Linux, and Mac (x64).
-Make sure Steam is logged in.
+Make sure Steam is running and logged in.
 
 ## Requirements
 - [.NET 9 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
@@ -20,11 +20,7 @@ Make sure Steam is logged in.
 ## Platform-Specific Instructions
 
 ### Windows
-- After extracting the files, run `SteamAchievementUnlocker.exe` while Steam is running.
-- To target specific app IDs:
-  ```powershell
-  .\SteamAchievementUnlocker.exe 730 813780
-  ```
+After extracting the files, run `SteamAchievementUnlocker.exe`.
 
 ### Linux / Mac
 - Open a terminal and navigate to the extracted directory.
