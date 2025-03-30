@@ -12,7 +12,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Output Run ID
+    - name: Output
       run: |
         echo "run_id: ${{ github.run_id }}"
         echo "run_number: ${{ github.run_number }}"
