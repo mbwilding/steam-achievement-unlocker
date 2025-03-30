@@ -36,6 +36,7 @@ jobs:
         run: |
           pushd "Build/Release/net9.0/${{ matrix.os }}-${{ matrix.arch }}"
           zip -r "SteamAchievementUnlocker-${{ matrix.os }}-${{ matrix.arch }}.zip" .
+          popd
 
       - name: "Upload Artifacts"
         uses: actions/upload-artifact@v4
