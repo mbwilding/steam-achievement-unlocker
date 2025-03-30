@@ -7,7 +7,6 @@ Make sure Steam is running and logged in.
 
 ## Requirements
 - [.NET 9 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
-- To build from source: .NET 9 SDK is required.
 
 ## General Instructions
 1. Download `SteamAchievementUnlocker-{os}-{arch}.zip` from the release section: [GitHub Releases](https://github.com/mbwilding/steam-achievement-unlocker/releases).
