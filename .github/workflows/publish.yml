@@ -9,8 +9,10 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [linux, win, osx]
-        arch: [x64]
+        os:
+          - runtime: linux-x64
+          - runtime: win-x64
+          - runtime: osx-x64
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -24,21 +26,14 @@ jobs:
       - name: Build
         shell: bash
         run: |
-          dotnet build --configuration Release --arch ${{ matrix.arch }} --os ${{ matrix.os }}
+          # Instead of passing --os and --arch which set a RuntimeIdentifier on the solution build,
+          # run the build first without a RID, then publish per project with the specific RID from the matrix.
+          dotnet build --configuration Release
+          # Example publishing for a specific project (replace "YourProject.csproj" with the appropriate project name)
+          dotnet publish "YourProject.csproj" --configuration Release --runtime ${{ matrix.os.runtime }} --self-contained false
+
+      - name: List Build Artifacts
+        run: |
           pushd Build
           ls
-
-  release:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Test
-        run: echo "Test"
-
-      # - name: Release
-      #   uses: softprops/action-gh-release@v2
-      #   with:
-      #     files: |
-      #       *.zip
-      #     name: ${{ github.run_number }}
-      #     tag_name: ${{ github.run_number }}
+          popd
