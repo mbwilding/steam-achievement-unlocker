@@ -34,21 +34,10 @@ jobs:
         run: |
           dotnet build "SteamAchievementUnlocker/SteamAchievementUnlocker.csproj" --configuration Release --os ${{ matrix.os }} --arch ${{ matrix.arch }}
           dotnet build "SteamAchievementUnlockerAgent/SteamAchievementUnlockerAgent.csproj" --configuration Release --os ${{ matrix.os }} --arch ${{ matrix.arch }}
+
           base_path="Build/Release/net9.0/${{ matrix.os }}-${{ matrix.arch }}/runtimes"
-          lib_path="${base_path}/${{ matrix.os }}-${{ matrix.arch }}/lib/netstandard2.1"
-          dep_path="Common/runtimes/${{ matrix.os }}-${{ matrix.arch }}/lib/netstandard2.1"
-
-          echo "dep_path: $dep_path"
-          ls "$dep_path"
-
-          echo "Copying dep binary"
-          cp "${dep_path}/${{ matrix.binary }}" "$lib_path/${{ matrix.binary }}"
-
-          echo "Cleaning up os/arch specific folders"
           find "$base_path" -mindepth 1 -maxdepth 1 -type d ! -name "${{ matrix.os }}-${{ matrix.arch }}*" -exec rm -rf {} +
-
-          echo "lib_path: $lib_path"
-          ls "$lib_path"
+          ls "${base_path}/${{ matrix.os }}-${{ matrix.arch }}/lib/netstandard2.1"
 
   release:
     needs: build
