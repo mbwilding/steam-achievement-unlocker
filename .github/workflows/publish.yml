@@ -7,22 +7,31 @@ on:
 
 jobs:
   release:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [linux, windows, macos]
+        arch: [x64]
+    runs-on: ${{ matrix.os }}
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Build
-      shell: bash
-      run: |
-        dotnet build --configuration Release
-        pushd Build
-        ls
+      - name: Install Dotnet
+        uses: actions/setup-dotnet@v4.3.1
+        with:
+          dotnet-version: 9.0.x
 
-    # - name: Release
-    #   uses: softprops/action-gh-release@v2
-    #   with:
-    #     files: |
-    #       *.zip
-    #     name: ${{ github.run_number }}
-    #     tag_name: ${{ github.run_number }}
+      - name: Build
+        shell: bash
+        run: |
+          dotnet build --configuration Release --arch ${{ matrix.arch }} --os ${{ matrix.os }}
+          pushd Build
+          ls
+
+      # - name: Release
+      #   uses: softprops/action-gh-release@v2
+      #   with:
+      #     files: |
+      #       *.zip
+      #     name: ${{ github.run_number }}
+      #     tag_name: ${{ github.run_number }}
