@@ -7,10 +7,7 @@
         <Nullable>enable</Nullable>
         <Platforms>x64</Platforms>
         <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
-        <AssemblyName>SteamAchievementUnlockerAgent</AssemblyName>
-        <RootNamespace>SteamAchievementUnlockerAgent</RootNamespace>
-        <LangVersion>default</LangVersion>
-        <Company>Wilding Studios</Company>
+        <Company>Matthew Wilding</Company>
         <Product>Steam Achievement Unlocker Agent</Product>
     </PropertyGroup>
 

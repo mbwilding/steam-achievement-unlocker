@@ -7,11 +7,8 @@
         <Nullable>enable</Nullable>
         <Platforms>x64</Platforms>
         <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
-        <AssemblyName>SteamAchievementUnlocker</AssemblyName>
-        <RootNamespace>SteamAchievementUnlocker</RootNamespace>
-        <Company>Wilding Studios</Company>
+        <Company>Matthew Wilding</Company>
         <Product>Steam Achievement Unlocker</Product>
-        <LangVersion>default</LangVersion>
         <ApplicationIcon>Icon.ico</ApplicationIcon>
     </PropertyGroup>
 
@@ -46,32 +43,6 @@
         <ProjectReference Include="..\SteamAchievementUnlockerAgent\SteamAchievementUnlockerAgent.csproj" />
         <ProjectReference Include="..\Common\Common.csproj" />
     </ItemGroup>
-
-    <Target Name="PostBuildCleanup" AfterTargets="PostBuildEvent">
-        <RemoveDir Directories="$(OutDir)runtimes/linux-x86" />
-        <RemoveDir Directories="$(OutDir)runtimes/osx-x86" />
-        <RemoveDir Directories="$(OutDir)runtimes/win-x86" />
-        <Delete Files="$(OutDir)Steamworks.NET.dll" />
-        <Message Text="x86 CLEAN UP" Importance="High" />
-    </Target>
-
-    <Target Name="PostBuildWindows" AfterTargets="PostBuildEvent" Condition="$(DefineConstants.Contains('WIN'))">
-        <RemoveDir Directories="$(OutDir)runtimes/osx-x64" />
-        <RemoveDir Directories="$(OutDir)runtimes/linux-x64" />
-        <Message Text="LINUX BUILD CLEAN UP" Importance="High" />
-    </Target>
-
-    <Target Name="PostBuildMac" AfterTargets="PostBuildEvent" Condition="$(DefineConstants.Contains('MAC'))">
-        <RemoveDir Directories="$(OutDir)runtimes/win-x64" />
-        <RemoveDir Directories="$(OutDir)runtimes/linux-x64" />
-        <Message Text="MAC BUILD CLEAN UP" Importance="High" />
-    </Target>
-
-    <Target Name="PostBuildLinux" AfterTargets="PostBuildEvent" Condition="$(DefineConstants.Contains('LINUX'))">
-        <RemoveDir Directories="$(OutDir)runtimes/win-x64" />
-        <RemoveDir Directories="$(OutDir)runtimes/osx-x64" />
-        <Message Text="LINUX BUILD CLEAN UP" Importance="High" />
-    </Target>
 
     <PropertyGroup>
         <ApplicationManifest>app.manifest</ApplicationManifest>
