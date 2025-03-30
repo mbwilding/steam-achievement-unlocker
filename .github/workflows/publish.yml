@@ -42,7 +42,7 @@ jobs:
           ls "$dep_path"
 
           find "$base_path" -mindepth 1 -maxdepth 1 -type d ! -name "${{ matrix.os }}-${{ matrix.arch }}*" -exec rm -rf {} +
-          cp "${dep_path}/${binary}" "$lib_path"
+          cp "${dep_path}/${binary}" "$lib_path/${binary}"
 
           echo "lib_path: $lib_path"
           ls "$lib_path"
