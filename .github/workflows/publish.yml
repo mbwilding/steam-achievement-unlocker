@@ -12,15 +12,17 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Output
+    - name: Build
+      shell: bash
       run: |
-        echo "run_id: ${{ github.run_id }}"
-        echo "run_number: ${{ github.run_number }}"
+        dotnet build --configuration Release
+        pushd Build
+        ls
 
     # - name: Release
     #   uses: softprops/action-gh-release@v2
     #   with:
     #     files: |
     #       *.zip
-    #     name: ${{ steps.version.outputs.version }}
-    #     tag_name: ${{ steps.version.outputs.version }}
+    #     name: ${{ github.run_number }}
+    #     tag_name: ${{ github.run_number }}
