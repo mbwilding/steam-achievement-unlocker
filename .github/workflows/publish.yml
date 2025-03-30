@@ -36,6 +36,9 @@ jobs:
           find "$base_path" -mindepth 1 -maxdepth 1 -type d ! -name "${{ matrix.os }}-${{ matrix.arch }}*" -exec rm -rf {} +
           ls "${base_path}/${{ matrix.os }}-${{ matrix.arch }}/lib/netstandard2.1"
 
+          echo "test"
+          ls  "${base_path}"
+
   release:
     needs: build
     runs-on: ubuntu-latest
