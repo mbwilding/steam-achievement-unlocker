@@ -6,12 +6,12 @@ on:
       - main
 
 jobs:
-  release:
+  build:
     strategy:
       matrix:
         os: [linux, windows, macos]
         arch: [x64]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -27,6 +27,13 @@ jobs:
           dotnet build --configuration Release --arch ${{ matrix.arch }} --os ${{ matrix.os }}
           pushd Build
           ls
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test
+        run: echo "Test"
 
       # - name: Release
       #   uses: softprops/action-gh-release@v2
