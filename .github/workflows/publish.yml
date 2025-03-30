@@ -32,29 +32,42 @@ jobs:
           dotnet build "SteamAchievementUnlockerAgent/SteamAchievementUnlockerAgent.csproj" --configuration Release --os ${{ matrix.os }} --arch ${{ matrix.arch }}
           find "Build/Release/net9.0/${{ matrix.os }}-${{ matrix.arch }}/runtimes" -mindepth 1 -maxdepth 1 -type d ! -name "${{ matrix.os }}-${{ matrix.arch }}*" -exec rm -rf {} +
 
-      - name: "Zip"
+      - name: Zip
         run: |
           pushd "Build/Release/net9.0/${{ matrix.os }}-${{ matrix.arch }}"
           zip -r "SteamAchievementUnlocker-${{ matrix.os }}-${{ matrix.arch }}.zip" .
           popd
 
-      - name: "Upload Artifacts"
+      - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           path: Build/Release/net9.0/${{ matrix.os }}-${{ matrix.arch }}/SteamAchievementUnlocker-${{ matrix.os }}-${{ matrix.arch }}.zip
           name: SteamAchievementUnlocker-${{ matrix.os }}-${{ matrix.arch }}.zip
 
   release:
-    needs: build
+    name: Create Release
     runs-on: ubuntu-latest
-    steps:
-      - name: Test
-        run: echo "Test"
+    needs: build
 
-      # - name: Release
-      #   uses: softprops/action-gh-release@v2
-      #   with:
-      #     files: |
-      #       *.zip
-      #     name: ${{ github.run_number }}
-      #     tag_name: ${{ github.run_number }}
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: '**/SteamAchievementUnlocker-*.zip'
+          merge-multiple: true
+          path: .
+
+      - name: "Create Git Tag"
+        run: |
+          git config --local user.name "GitHub Action"
+          git config --local user.email "action@github.com"
+          git tag -a ${{ github.run_number }} -m "${{ github.run_number }}"
+          git push origin ${{ github.run_number }}
+
+      - name: "Create GitHub Release"
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.run_number }}
+          release_name: ${{ github.run_number }}
+          files: |
+            *.zip
