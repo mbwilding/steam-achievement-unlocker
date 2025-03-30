@@ -27,17 +27,21 @@ jobs:
           dotnet-version: 9.0.x
 
       - name: Build
-        shell: bash
         run: |
           dotnet build "SteamAchievementUnlocker/SteamAchievementUnlocker.csproj" --configuration Release --os ${{ matrix.os }} --arch ${{ matrix.arch }}
           dotnet build "SteamAchievementUnlockerAgent/SteamAchievementUnlockerAgent.csproj" --configuration Release --os ${{ matrix.os }} --arch ${{ matrix.arch }}
+          find "Build/Release/net9.0/${{ matrix.os }}-${{ matrix.arch }}/runtimes" -mindepth 1 -maxdepth 1 -type d ! -name "${{ matrix.os }}-${{ matrix.arch }}*" -exec rm -rf {} +
 
-          base_path="Build/Release/net9.0/${{ matrix.os }}-${{ matrix.arch }}/runtimes"
-          find "$base_path" -mindepth 1 -maxdepth 1 -type d ! -name "${{ matrix.os }}-${{ matrix.arch }}*" -exec rm -rf {} +
-          ls "${base_path}/${{ matrix.os }}-${{ matrix.arch }}/lib/netstandard2.1"
+      - name: "Zip"
+        run: |
+          pushd "Build/Release/net9.0/${{ matrix.os }}-${{ matrix.arch }}"
+          zip -r "SteamAchievementUnlocker-${{ matrix.os }}-${{ matrix.arch }}.zip" .
 
-          echo "test"
-          ls  "${base_path}"
+      - name: "Upload Artifacts"
+        uses: actions/upload-artifact@v4
+        with:
+          path: Build/Release/net9.0/${{ matrix.os }}-${{ matrix.arch }}/SteamAchievementUnlocker-${{ matrix.os }}-${{ matrix.arch }}.zip
+          name: SteamAchievementUnlocker-${{ matrix.os }}-${{ matrix.arch }}.zip
 
   release:
     needs: build

@@ -3,14 +3,14 @@ Unlocks every achievement for all owned Steam titles.<br>
 Tested on Windows, Linux and Mac (x64).<br>
 Make sure Steam is logged in.<br>
 
+Download 'SteamAchievementUnlocker-*.zip' from the release section<br>
+
 **[Windows]**<br>
-Download 'SteamAchievementUnlocker-Win64.zip' from the release section<br>
 Extract the files then run 'SteamAchievementUnlocker.exe' while steam is running.<br>
 If you only want to unlock for specific app IDs, just add them on the end separated by spaces via CMD.<br>
 `SteamAchievementUnlocker.exe 730 813780`<br>
 
 **[Linux / Mac]**<br>
-Download 'SteamAchievementUnlocker-Linux64.zip' or 'SteamAchievementUnlocker-Mac64.zip' from the release section<br>
 Extract the files, then in the CLI browse to the directory.<br>
 Run these commands;<br>
 `sudo chmod +x SteamAchievementUnlocker SteamAchievementUnlockerAgent`<br>
