@@ -5,9 +5,6 @@ on:
     branches:
       - main
 
-env:
-  DOTNET_VERSION: 9.0
-
 jobs:
   build:
     strategy:
@@ -22,14 +19,14 @@ jobs:
       - name: Install Dotnet
         uses: actions/setup-dotnet@v4.3.1
         with:
-          dotnet-version: ${DOTNET_VERSION}.x
+          dotnet-version: 9.0.x
 
       - name: Build
         shell: bash
         run: |
           dotnet build "SteamAchievementUnlocker/SteamAchievementUnlocker.csproj" --configuration Release --os ${{ matrix.os }} --arch ${{ matrix.arch }}
           dotnet build "SteamAchievementUnlockerAgent/SteamAchievementUnlockerAgent.csproj" --configuration Release --os ${{ matrix.os }} --arch ${{ matrix.arch }}
-          ls Build/Release/net${DOTNET_VERSION}/${{ matrix.os }}-${{ matrix.arch }}
+          ls Build/Release/net9.0/${{ matrix.os }}-${{ matrix.arch }}
 
   release:
     needs: build
