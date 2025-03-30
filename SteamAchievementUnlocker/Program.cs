@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Common;
 using Serilog;
@@ -49,7 +49,7 @@ if (argsList.Count != 0)
 else
 {
     var games = await Helpers.GetGameListAsync().ConfigureAwait(false);
-    
+
     await Parallel.ForEachAsync(games, options, async (game, _) =>
     {
         var gameName = game.Key

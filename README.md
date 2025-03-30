@@ -1,13 +1,12 @@
 # Steam Achievement Unlocker
 Unlocks every achievement for all owned Steam titles.<br>
-Tested on Windows Linux and Mac.<br>
-Install the [runtime](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) first<br>
+Tested on Windows, Linux and Mac (x64).<br>
 Make sure Steam is logged in.<br>
 
 **[Windows]**<br>
 Download 'SteamAchievementUnlocker-Win64.zip' from the release section<br>
 Extract the files then run 'SteamAchievementUnlocker.exe' while steam is running.<br>
-If you only want to unlock for specific app IDs, just add them on the end seperated by spaces via CMD.<br>
+If you only want to unlock for specific app IDs, just add them on the end separated by spaces via CMD.<br>
 `SteamAchievementUnlocker.exe 730 813780`<br>
 
 **[Linux / Mac]**<br>
@@ -23,4 +22,4 @@ If you only want to unlock for specific app IDs, just add them on the end sepera
 Add the switch statement to the arguments<br>
 `--clear`
 
-_**Requires .NET 8 SDK to build from source**_<br>
+_**Requires .NET 9 SDK to build from source**_<br>

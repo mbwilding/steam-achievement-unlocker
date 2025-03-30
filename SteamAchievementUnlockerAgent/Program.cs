@@ -1,4 +1,4 @@
-﻿using SteamAchievementUnlockerAgent;
+using SteamAchievementUnlockerAgent;
 
 #if LINUX || MAC
     Console.SetOut(TextWriter.Null);
@@ -16,8 +16,6 @@ for (var i = 0; i < args.Length - 1; i++)
 gameName = gameName.TrimEnd();
 var appId = args[^2];
 var clear = args[^1].Contains("clear=True");
-
-Common.Serilog.Init($"Achievements/{appId}", true);
 
 var steam = new Steam(gameName, appId, clear);
 var result = await steam.InitAsync().ConfigureAwait(false);
