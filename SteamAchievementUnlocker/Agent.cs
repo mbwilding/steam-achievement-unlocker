@@ -14,7 +14,7 @@ public class Agent
         var startInfo = new ProcessStartInfo
         {
             WindowStyle = ProcessWindowStyle.Hidden,
-            FileName = $"{dir}{app}",
+            FileName = $"{dir}/{app}",
             Arguments = arguments,
             CreateNoWindow = true,
             UseShellExecute = false,
@@ -50,31 +50,29 @@ public class Agent
     private static string Clone(string appId)
     {
         var current = Directory.GetCurrentDirectory();
-        var dir = $"{current}/Apps/{appId}/";
-        if (Directory.Exists(dir))
-            Directory.Delete(dir, true);
-        Directory.CreateDirectory(dir);
-        Directory.CreateDirectory($"{dir}runtimes");
+        var targetRoot = Path.Combine(current, "Apps", appId);
 
-        var files = Directory.EnumerateFiles(current).Where(x =>
-            Path.GetFileNameWithoutExtension(x).Contains("SteamAchievementUnlockerAgent") ||
-            Path.GetExtension(x).Contains(".dll") ||
-            Path.GetExtension(x).Contains(".json"));
+        if (Directory.Exists(targetRoot))
+            Directory.Delete(targetRoot, true);
+        Directory.CreateDirectory(targetRoot);
 
-        var runtimes = Directory.EnumerateFiles($"{current}/runtimes", "*.*", new EnumerationOptions { RecurseSubdirectories = true });
-
-        foreach (var file in runtimes)
-        {
-            var directory = file.Replace(Path.GetFileName(file), string.Empty).Replace("runtimes", $"Apps/{appId}/runtimes");
-            Directory.CreateDirectory($"{directory}");
-            File.CreateSymbolicLink($"{directory}/{Path.GetFileName(file)}", file);
-        }
+        var files = Directory.EnumerateFiles(current, "*", SearchOption.AllDirectories)
+            .Where(x => !x.Contains("Apps") &&
+                        !x.Contains("Logs") &&
+                        !(x.Contains("SteamAchievementUnlocker") && !x.Contains("SteamAchievementUnlockerAgent")));
 
         foreach (var file in files)
         {
-            File.CreateSymbolicLink($"{dir}{Path.GetFileName(file)}", file);
+            var relativePath = Path.GetRelativePath(current, file);
+            var targetPath = Path.Combine(targetRoot, relativePath);
+            var targetDir = Path.GetDirectoryName(targetPath);
+
+            if (!Directory.Exists(targetDir))
+                Directory.CreateDirectory(targetDir!);
+
+            File.CreateSymbolicLink(targetPath, file);
         }
 
-        return dir;
+        return targetRoot;
     }
 }
