@@ -4,6 +4,10 @@ using Common;
 using Serilog;
 using SteamAchievementUnlocker;
 
+string exePath = Process.GetCurrentProcess().MainModule!.FileName;
+string exeDirectory = Path.GetDirectoryName(exePath)!;
+Directory.SetCurrentDirectory(exeDirectory);
+
 Process.GetProcessesByName("SteamAchievementUnlockerAgent")
     .ToList()
     .ForEach(x => x.Kill());
@@ -24,10 +28,10 @@ while (Helpers.ReadRegistry(@"Software\Valve\Steam\ActiveProcess", "ActiveUser")
 }
 var app = "SteamAchievementUnlockerAgent.exe";
 #elif LINUX || MAC
-    Log.Information("Make sure Steam is running and logged in");
-    Log.Information("Otherwise the following will all fail\n");
-    string app = "SteamAchievementUnlockerAgent";
-    Environment.SetEnvironmentVariable("LD_PRELOAD", Path.Combine(Directory.GetCurrentDirectory(), "libsteam_api.so"));
+Log.Information("Make sure Steam is running and logged in");
+Log.Information("Otherwise the following will all fail\n");
+string app = "SteamAchievementUnlockerAgent";
+Environment.SetEnvironmentVariable("LD_PRELOAD", Path.Combine(Directory.GetCurrentDirectory(), "libsteam_api.so"));
 #endif
 
 const string clearString = "--clear";
